@@ -65,15 +65,22 @@ IF( NOT ${PROJECT_NAMESPACE_PREFIX}_BUILD_STATIC_LIB )
 	SET( FTGL_DEFINITIONS ${FTGL_DEFINITIONS} -DFTGL_SHARED_LIB )
 ENDIF( NOT ${PROJECT_NAMESPACE_PREFIX}_BUILD_STATIC_LIB )
 
+FIND_PACKAGE( Freetype REQUIRED )
+
+SET( FREETYPE_PATH ${FREETYPE_INCLUDE_DIRS} )
+
+INCLUDE( ConfigureChecks.cmake )
+
 # Configure header file
 CONFIGURE_FILE( ftgl_config.h.cmake
-	${CMAKE_CURRENT_BINARY_DIR}/config/ftgl_config.h @ONLY )
+	${CMAKE_CURRENT_BINARY_DIR}/config/ftgl_config.h )
 
 # Add configured header file to header file search path
 INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_BINARY_DIR}/config/ )
 
 ADD_DEFINITIONS( ${FTGL_DEFINITIONS}  )
 
+INCLUDE_DIRECTORIES( ${FREETYPE_PATH} )
 INCLUDE_DIRECTORIES( src )
 INCLUDE_DIRECTORIES( src/FTFont )
 INCLUDE_DIRECTORIES( src/FTGL )
@@ -81,6 +88,13 @@ INCLUDE_DIRECTORIES( src/FTGlyph )
 INCLUDE_DIRECTORIES( src/FTLayout )
 
 SET( PUBLIC_HDRS
+	src/FTGL/FTBBox.h 
+	src/FTGL/FTBitmapGlyph.h
+	src/FTGL/FTBuffer.h
+	src/FTGL/FTGLExtrdFont.h
+	src/FTGL/FTGLPolygonFont.h
+	src/FTGL/FTOutlineGlyph.h
+	src/FTGL/FTSimpleLayout.h
 	src/FTGL/FTBitmapGlyph.h
 	src/FTGL/FTExtrdGlyph.h
 	src/FTGL/ftgl.h

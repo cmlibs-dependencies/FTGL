@@ -1,8 +1,5 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* Define to the path to a TrueType font */
-#cmakedefine FONT_FILE @FONT_FILE@
-
 /* Define to 1 if you have the <inttypes.h> header file. */
 #cmakedefine01 HAVE_INTTYPES_H
 
@@ -30,14 +27,8 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #cmakedefine01 HAVE_SYS_TYPES_H
 
-/* Define to 1 if you have the <unistd.h> header file. */
-#cmakedefine01 HAVE_UNISTD_H
-
 /* Define to 1 if you have the `wcsdup' function. */
 #cmakedefine01 HAVE_WCSDUP
-
-/* Define to 1 if your C compiler doesn't accept -c and -o together. */
-#cmakedefine01 NO_MINUS_C_MINUS_O
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1

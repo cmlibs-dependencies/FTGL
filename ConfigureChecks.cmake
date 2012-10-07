@@ -5,7 +5,6 @@ INCLUDE( CheckSymbolExists )
 INCLUDE( CheckCCompilerFlag )
 INCLUDE( CheckLibraryExists )
 
-
 CHECK_INCLUDE_FILE( inttypes.h HAVE_INTTYPES_H )
 CHECK_INCLUDE_FILE( memory.h HAVE_MEMORY_H )
 CHECK_INCLUDE_FILE( stdint.h HAVE_STDINT_H )

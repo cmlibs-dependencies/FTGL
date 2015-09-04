@@ -107,6 +107,7 @@ ENDIF()
 
 # Create library target
 ADD_LIBRARY(${LIBRARY_TARGET_NAME} ${LIBRARY_BUILD_TYPE} ${FTGL_SRCS} )
+TARGET_LINK_LIBRARIES(${LIBRARY_TARGET_NAME} ${FREETYPE_LIBRARIES})
 
 # Set the install targets
 INSTALL(TARGETS ${LIBRARY_TARGET_NAME}
@@ -122,22 +123,8 @@ INSTALL(EXPORT ftgl-config
 include(CMakePackageConfigHelpers)
 WRITE_BASIC_PACKAGE_VERSION_FILE(${CMAKE_CURRENT_BINARY_DIR}/ftgl-config-version.cmake
     COMPATIBILITY AnyNewerVersion)
-#file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/hypre-config-dependencies.cmake 
-#    "include(CMakeFindDependencyMacro)\r\n"
-#	"set(${PROJECT_NAME}_IMPORT_PREFIX \${_I#MPORT_PREFIX})\r\n"
-#)
-#file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/hypre-config-dependencies.cmake "find_dependency(BLAS ${BLAS_VERSION})\r\n")
-#file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/hypre-config-dependencies.cmake "find_dependency(LAPACK ${LAPACK_VERSION})\r\n")
-#if (WITH_OPENMP)
-#    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/hypre-config-dependencies.cmake "find_dependency(OpenMP)\r\n")
-#endif()
-#if (WITH_SUPERLU AND NOT SUPERLU_INTERNAL)
-#    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/hypre-config-dependencies.cmake "find_dependency(SUPERLU)\r\n")
-#endif()
-#file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/hypre-config-dependencies.cmake "set(_IMPORT_PREFIX \${${PROJECT_NAME}_IMPORT_PREFIX})")
 install(FILES 
     ${CMAKE_CURRENT_BINARY_DIR}/ftgl-config-version.cmake
-    #${CMAKE_CURRENT_BINARY_DIR}/hypre-config-dependencies.cmake
     DESTINATION ${PACKAGE_CONFIG_DIR})	
 
 

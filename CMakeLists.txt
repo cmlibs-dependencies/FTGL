@@ -62,7 +62,7 @@ add_definitions(${FTGL_DEFINITIONS})
 
 include_directories( src )
 include_directories( src/FTFont )
-include_directories( src/FTGL )
+#/include_directories( src/FTGL )
 include_directories( src/FTGlyph )
 include_directories( src/FTLayout )
 

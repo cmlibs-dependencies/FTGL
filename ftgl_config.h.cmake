@@ -3,34 +3,34 @@
 #define FTGL_CONFIG_H_
 
 /* Define to 1 if you have the <inttypes.h> header file. */
-#cmakedefine HAVE_INTTYPES_H
+#cmakedefine01 HAVE_INTTYPES_H
 
 /* Define to 1 if you have the <memory.h> header file. */
-#cmakedefine HAVE_MEMORY_H
+#cmakedefine01 HAVE_MEMORY_H
 
 /* Define to 1 if you have the <stdint.h> header file. */
-#cmakedefine HAVE_STDINT_H
+#cmakedefine01 HAVE_STDINT_H
 
 /* Define to 1 if you have the <stdlib.h> header file. */
-#cmakedefine HAVE_STDLIB_H
+#cmakedefine01 HAVE_STDLIB_H
 
 /* Define to 1 if you have the <strings.h> header file. */
-#cmakedefine HAVE_STRINGS_H
+#cmakedefine01 HAVE_STRINGS_H
 
 /* Define to 1 if you have the <string.h> header file. */
-#cmakedefine HAVE_STRING_H
+#cmakedefine01 HAVE_STRING_H
 
 /* Define to 1 if you have the `strndup' function. */
-#cmakedefine HAVE_STRNDUP
+#cmakedefine01 HAVE_STRNDUP
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
-#cmakedefine HAVE_SYS_STAT_H
+#cmakedefine01 HAVE_SYS_STAT_H
 
 /* Define to 1 if you have the <sys/types.h> header file. */
-#cmakedefine HAVE_SYS_TYPES_H
+#cmakedefine01 HAVE_SYS_TYPES_H
 
 /* Define to 1 if you have the `wcsdup' function. */
-#cmakedefine HAVE_WCSDUP
+#cmakedefine01 HAVE_WCSDUP
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1

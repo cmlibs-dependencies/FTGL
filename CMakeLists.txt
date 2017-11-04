@@ -123,7 +123,7 @@ WRITE_BASIC_PACKAGE_VERSION_FILE(${CMAKE_CURRENT_BINARY_DIR}/ftgl-config-version
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/ftgl-config-dependencies.cmake 
     "include(CMakeFindDependencyMacro)\r\n"
 	"set(${PROJECT_NAME}_IMPORT_PREFIX \${_IMPORT_PREFIX})\r\n"
-	"find_dependency(Freetype)\r\n"
+	"set(FREETYPE_FIND_SYSTEM ${FREETYPE_FIND_SYSTEM})\r\nfind_dependency(Freetype)\r\n"
 	"set(_IMPORT_PREFIX \${${PROJECT_NAME}_IMPORT_PREFIX})"
 )
 install(FILES 

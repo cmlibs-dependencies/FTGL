@@ -19,17 +19,10 @@ set(PACKAGE_VERSION \"${FTGL_MAJOR_VERSION}.${FTGL_MINOR_VERSION}.${FTGL_PATCH_V
 OPTION( ${PROJECT_NAMESPACE_PREFIX}_BUILD_STATIC_LIB "Build static ftgl" TRUE )
 OPTION( ${PROJECT_NAMESPACE_PREFIX}_INSTALL_CONFIG "Install a config file for the library" FALSE )
 
-if( ${PROJECT_NAMESPACE_PREFIX}_BUILD_STATIC_LIB )
-	set(LIBRARY_BUILD_TYPE STATIC )
-	set(LIBRARY_INSTALL_TYPE ARCHIVE )
-	add_definitions( -DFTGL_LIBRARY_STATIC )
+if( BUILD_SHARED_LIBS )
+	list(APPEND LIBRARY_PUBLIC_DEFINITIONS FTGL_LIBRARY)
 ELSE()
-	set(LIBRARY_BUILD_TYPE SHARED )
-	set(LIBRARY_INSTALL_TYPE LIBRARY )
-	if( WIN32 )
-		set(LIBRARY_INSTALL_TYPE RUNTIME )
-	endif( WIN32 )
-	add_definitions( -DFTGL_LIBRARY )
+	list(APPEND LIBRARY_PUBLIC_DEFINITIONS FTGL_LIBRARY_STATIC)
 endif()
 
 find_package(Freetype ${FREETYPE_VERSION} REQUIRED)
@@ -37,12 +30,8 @@ find_package(Freetype ${FREETYPE_VERSION} REQUIRED)
 # Set required definitions for building FTGL.  This should really
 # be in a config.h header file but that's more changes.
 if( WIN32 )
-	set(FTGL_DEFINITIONS -D_CRT_SECURE_NO_WARNINGS )
+    list(APPEND LIBRARY_PRIVATE_DEFINITIONS _CRT_SECURE_NO_WARNINGS)
 endif( WIN32 )
-if( NOT ${PROJECT_NAMESPACE_PREFIX}_BUILD_STATIC_LIB )
-	set(FTGL_DEFINITIONS ${FTGL_DEFINITIONS} -DFTGL_LIBRARY_SHARED )
-
-endif( NOT ${PROJECT_NAMESPACE_PREFIX}_BUILD_STATIC_LIB )
 
 include(ConfigureChecks.cmake )
 
@@ -54,17 +43,6 @@ else()
 configure_file( ftgl_config.h.cmake
 	${CMAKE_CURRENT_BINARY_DIR}/config/ftgl_config.h )
 endif()
-
-# Add configured header file to header file search path
-include_directories( ${CMAKE_CURRENT_BINARY_DIR}/config)
-
-add_definitions(${FTGL_DEFINITIONS})
-
-include_directories( src )
-include_directories( src/FTFont )
-#/include_directories( src/FTGL )
-include_directories( src/FTGlyph )
-include_directories( src/FTLayout )
 
 set(PUBLIC_HDRS
 	src/FTGL/FTBBox.h 
@@ -98,18 +76,21 @@ set(CMAKE_MFC_FLAG 0 )
 # suitable for cmgui
 include(ftgl-cmgui.cmake )
 
-if( ${CMAKE_SYSTEM_NAME} STREQUAL "Linux" AND ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64" )
-	include(ftgl-cmgui.cmake )
-endif()
-
 # Create library target
-add_library(${LIBRARY_TARGET_NAME} ${LIBRARY_BUILD_TYPE} ${FTGL_SRCS})
+add_library(${LIBRARY_TARGET_NAME} ${FTGL_SRCS} ${PUBLIC_HDRS})
 target_link_libraries(${LIBRARY_TARGET_NAME} PUBLIC freetype)
+target_compile_definitions(${LIBRARY_TARGET_NAME} PUBLIC ${LIBRARY_PUBLIC_DEFINITIONS})
+if (LIBRARY_PRIVATE_DEFINITIONS)
+    target_compile_definitions(${LIBRARY_TARGET_NAME} PRIVATE ${LIBRARY_PRIVATE_DEFINITIONS})
+endif()
+target_include_directories(${LIBRARY_TARGET_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/config ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # Set the install targets
 install(TARGETS ${LIBRARY_TARGET_NAME}
-    EXPORT ftgl-config ${LIBRARY_INSTALL_TYPE}
-	DESTINATION lib
+    EXPORT ftgl-config
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib
 	INCLUDES DESTINATION include/FTGL)
 install(FILES ${PUBLIC_HDRS}
 	DESTINATION include/FTGL
@@ -121,14 +102,12 @@ include(CMakePackageConfigHelpers)
 WRITE_BASIC_PACKAGE_VERSION_FILE(${CMAKE_CURRENT_BINARY_DIR}/ftgl-config-version.cmake
     COMPATIBILITY AnyNewerVersion)
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/ftgl-config-dependencies.cmake 
-    "include(CMakeFindDependencyMacro)\r\n"
-	"set(${PROJECT_NAME}_IMPORT_PREFIX \${_IMPORT_PREFIX})\r\n"
-	"set(FREETYPE_FIND_SYSTEM ${FREETYPE_FIND_SYSTEM})\r\nfind_dependency(Freetype)\r\n"
+    "include(CMakeFindDependencyMacro)\n"
+	"set(${PROJECT_NAME}_IMPORT_PREFIX \${_IMPORT_PREFIX})\n"
+	"set(FREETYPE_FIND_SYSTEM ${FREETYPE_FIND_SYSTEM})\nfind_dependency(Freetype)\n"
 	"set(_IMPORT_PREFIX \${${PROJECT_NAME}_IMPORT_PREFIX})"
 )
 install(FILES 
     ${CMAKE_CURRENT_BINARY_DIR}/ftgl-config-version.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/ftgl-config-dependencies.cmake
     DESTINATION ${PACKAGE_CONFIG_DIR})	
-
-

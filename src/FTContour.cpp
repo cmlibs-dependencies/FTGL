@@ -163,7 +163,7 @@ void FTContour::SetParity(int parity)
 }
 
 
-FTContour::FTContour(FT_Vector* contour, char* tags, unsigned int n)
+FTContour::FTContour(FT_Vector* contour, unsigned char* tags, unsigned int n)
 {
     FTPoint prev, cur(contour[(n - 1) % n]), next(contour[0]);
     FTPoint a, b = next - cur;

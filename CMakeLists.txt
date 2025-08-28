@@ -1,6 +1,6 @@
 
 # Set the minimum version of cmake required to 2.6
-cmake_minimum_required( VERSION 3.0 )
+cmake_minimum_required( VERSION 3.18 )
 
 project(FTGL VERSION 2.1.3 LANGUAGES C CXX )
 set(CMAKE_POSITION_INDEPENDENT_CODE YES)
